@@ -4,6 +4,8 @@ import Homepage from "./Homepage";
 import Authentication from "./authentication/Authentication";
 
 function App() {
+  const user = useSelector(state => state.data.user)
+  console.log(user);
   
 
   return (

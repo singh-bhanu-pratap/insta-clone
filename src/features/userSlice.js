@@ -17,8 +17,8 @@ export const userSlice = createSlice({
         },
         setLoading : (state, action) => {
             state.isLoading = action.payload
-        }
-    }
+        },
+    },
 });
 
-export const {loginUser, logOut, setLoading} = userSlice.actions;
+export const {loginUser, logoutUser, setLoading} = userSlice.actions;

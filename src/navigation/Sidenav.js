@@ -8,14 +8,26 @@ import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCircleOutLineIcon from "@mui/icons-material/AddCircleOutline";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Avatar } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../firebase";
+import { logoutUser } from "../features/userSlice";
+import { signOut } from "firebase/auth";
 
 function Sidenav() {
+  const user = useSelector((state) => state.data.user.user);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    signOut(auth);
+  };
+
   return (
     <div className="sidenav">
       <img
         className="sidenav_logo"
         src="https://www.pngkey.com/png/full/828-8286178_mackeys-work-needs-no-elaborate-presentation-or-distracting.png"
-        alt=""
+        alt="Instagram logo"
       />
       <div className="sidenav__buttons">
         <button className="sidenav__button">
@@ -53,6 +65,17 @@ function Sidenav() {
           <span>Create</span>
         </button>
 
+        <button className="sidenav__button">
+        <Avatar>
+            {user.username ? user.username.charAt(0).toUpperCase() : "A"}
+          </Avatar>
+          <span>
+            {user.username}{" "}
+            <button onClick={handleLogout} className="logout__button">
+              Logout
+            </button>
+          </span>
+        </button>
       </div>
       <div className="sidenav__more">
         <button className="sidenav__button">
@@ -62,6 +85,6 @@ function Sidenav() {
       </div>
     </div>
   );
-}
+  }
 
 export default Sidenav;

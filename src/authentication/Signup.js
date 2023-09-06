@@ -1,10 +1,30 @@
 import React, { useState } from "react";
 import "./Signup.css";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../firebase";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((authUser) =>{ 
+        signInWithEmailAndPassword(auth, email, password).then(
+          updateProfile(auth.currentUser, { displayName: username,
+           })
+        );
+          })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   return (
     <div className="signup">
@@ -20,7 +40,7 @@ function Signup() {
       />
       <input
         onChange={(e) => setUsername(e.target.value)}
-        type="text"
+        type="email"
         placeholder="Username"
         value={username}
       />
@@ -30,7 +50,7 @@ function Signup() {
         placeholder="Password"
         value={password}
       />
-      <button>Sign Up</button>
+      <button onClick={handleSignup}>Sign Up</button>
     </div>
   );
 }
